@@ -1,11 +1,12 @@
 package org.example;
 
-import com.kone.pbdemo.protocol.DumpClassInfo;
-import com.kone.pbdemo.protocol.DumpMethodInfo;
+import hepta.dump.protocol.DumpClassInfo;
+import hepta.dump.protocol.DumpMethodInfo;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.example.dumpData.FixDumpClassCodeItem;
-import org.example.dumpData.FixDumpMethodCodeItem;
+import org.example.dumpdex.SignatureConverter;
+import org.jf.baksmali.fix.FixDumpClassCodeItem;
+import org.jf.baksmali.fix.FixDumpMethodCodeItem;
 
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class dumpDexFixCodeItem {
     public static void main(String[] args) {
 
 
-        String host = "10.1.2.242";
+        String host = "192.168.12.105";
         String fix_file = "D:\\apk\\dumpdex\\ccb_MainActivity.fixdata";   //pc dump fix path
         int port = 9091;
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().maxInboundMessageSize(Integer.MAX_VALUE).build();
@@ -32,12 +33,12 @@ public class dumpDexFixCodeItem {
 //                "com.hepta.androidgrpc.JNISignatureConverter",
 //                "com.hepta.androidgrpc.LoadEntry",
 //                "com.hepta.androidgrpc.MainActivity",
-//                "com.yunmai.valueoflife.MainActivity$a",
+                "com.yunmai.valueoflife.MainActivity$a",
 //                "com.yunmai.valueoflife.StartActivity$c",
 //                "com.yunmai.valueoflife.StartActivity$b",
 //                "com.yunmai.valueoflife.StartActivity$e",
 //                "com.yunmai.valueoflife.activity.AiDouVideoActivity"
-                "com.ccb.start.MainActivity"
+//                "com.ccb.start.MainActivity"
 //                "com.PEP.biaori.activity.SplashActivity"
         };
 
@@ -55,7 +56,7 @@ public class dumpDexFixCodeItem {
                 FixDumpMethodCodeItem fixDumpMethodCodeItem = new FixDumpMethodCodeItem(dumpMethodInfo.getContent().toByteArray());
                 methodCodeItems.put(MethodString,fixDumpMethodCodeItem);
             }
-            FixDumpClassCodeItem fixDumpClassCodeItem = new FixDumpClassCodeItem(methodCodeItems);
+            FixDumpClassCodeItem fixDumpClassCodeItem = new FixDumpClassCodeItem(methodCodeItems,null);
             dumpClassCodeItemList.put(classTypeString,fixDumpClassCodeItem);
         }
 
